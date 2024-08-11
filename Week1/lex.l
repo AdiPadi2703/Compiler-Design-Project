@@ -72,7 +72,6 @@ struct symbol{
     };
 
 void print_table(struct symbol *symbol_table[]){
-        int iter = 0;
         struct symbol *pointer;
         printf("\n\n***********************************************************************************************\n");
         printf("*                                      SYMBOL TABLE                                           *\n");
@@ -84,7 +83,7 @@ void print_table(struct symbol *symbol_table[]){
             if (symbol_table[i]!=NULL){
                 pointer = symbol_table[i];
                 while(pointer!=NULL){
-                    printf("%d",iter);
+                    printf("%d",i);
                     for(int j = 0;j < 35 - (int)strlen(pointer->name);j++){
                         printf(" ");
                     }
@@ -101,7 +100,6 @@ void print_table(struct symbol *symbol_table[]){
                     printf("\n");
                 }
                 printf("-----------------------------------------------------------------------------------------------\n");
-                iter++;
             }
         }printf("\n\n");
     }
@@ -124,7 +122,7 @@ void add(struct symbol *s, struct symbol* symbol_table[]){
             int flag =1;
             struct symbol *pointer = symbol_table[index];
             while(pointer!=NULL){
-                if (!strcmp(symbol_table[index]->name,s->name)){
+                if (strcmp(pointer->name,s->name)==0){
                     flag = 0;
                     break;
                 }
@@ -155,7 +153,7 @@ int main(){
         else if(tokenNumber == 18){
             printf("ERR_INCOMPLETE_STRING: On Line Number %d found %s\n",yylineno, lexeme);
         }
-        printf("On Line Number %d found token: %s - %s\n",yylineno, tokens[tokenNumber - 1], lexeme);;
+        printf("On Line Number %d found token: %s - %s\n",yylineno, tokens[tokenNumber - 1], lexeme);
         struct symbol *s=malloc(sizeof(struct symbol));
         strncpy(s->token,tokens[tokenNumber - 1],MAX_SYM);
         s->type = tokenNumber;

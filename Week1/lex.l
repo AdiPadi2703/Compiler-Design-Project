@@ -64,36 +64,49 @@ int yywrap(void){
     return 1;
 }
 
-int main(){
-    struct symbol{
+struct symbol{
         char name[MAX_NAME]; // symbol name
         char token[MAX_SYM]; // symbol type
         int type;  // token number 
         struct symbol *next;
     };
 
-    //struct symbol *s=malloc(sizeof(struct symbol*));
-    struct symbol *symbol_table[MAX_TABLE];
-    for (int i=0;i<MAX_TABLE;i++){
-        symbol_table[i] = NULL;
-    }
-    void print_table(){
+void print_table(struct symbol *symbol_table[]){
         int iter = 0;
         struct symbol *pointer;
+        printf("\n\n***********************************************************************************************\n");
+        printf("*                                      SYMBOL TABLE                                           *\n");
+        printf("***********************************************************************************************\n");
+        printf("Hash Value                    Lexeme                    Token                      Token Number\n");
+        printf("***********************************************************************************************\n");
+        printf("*                                                                                             *\n");
         for (int i=0;i<MAX_TABLE;i++){
             if (symbol_table[i]!=NULL){
                 pointer = symbol_table[i];
                 while(pointer!=NULL){
-                    printf("%d %s\t\t%s\t\t%d -->",iter,pointer->name,pointer->token,pointer->type);
+                    printf("%d",iter);
+                    for(int j = 0;j < 35 - (int)strlen(pointer->name);j++){
+                        printf(" ");
+                    }
+                    printf("%s",pointer->name);
+                    for(int j = 0;j < 25 - (int)strlen(pointer->token);j++){
+                        printf(" ");
+                    }
+                    printf("%s",pointer->token);
+                    for(int j = 0;j < 25;j++){
+                        printf(" ");
+                    }
+                    printf("%d",pointer->type);
                     pointer = pointer->next;
+                    printf("\n");
                 }
-                printf("|\n");
+                printf("-----------------------------------------------------------------------------------------------\n");
                 iter++;
             }
         }printf("\n\n");
     }
 
-    unsigned int hash(char *name){
+unsigned int hash(char *name){
         int length = strlen(name);
         if(length > MAX_NAME)length = MAX_NAME;
         unsigned int hash_value=0;
@@ -105,7 +118,7 @@ int main(){
         return hash_value;
     }
 
-    void add(struct symbol *s){
+void add(struct symbol *s, struct symbol* symbol_table[]){
         if (s!=NULL){
             int index = hash(s->name);
             int flag =1;
@@ -124,9 +137,15 @@ int main(){
         }
     }
 
+int main(){
+    
+    struct symbol *symbol_table[MAX_TABLE];
+    for (int i=0;i<MAX_TABLE;i++){
+        symbol_table[i] = NULL;
+    }
+
     char *lexeme;
     int tokenNumber = yylex();
-    print_table();
     while(tokenNumber){
 
         lexeme = strdup(yytext);
@@ -141,10 +160,9 @@ int main(){
         strncpy(s->token,tokens[tokenNumber - 1],MAX_SYM);
         s->type = tokenNumber;
         strncpy(s->name,lexeme,MAX_NAME);
-        add(s);
+        add(s, symbol_table);
         tokenNumber = yylex();
     }
-    printf("###SYMBOL TABLE###\n\n");
-    print_table();
+    print_table(symbol_table);
     return 0;
 }

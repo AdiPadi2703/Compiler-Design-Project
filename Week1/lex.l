@@ -245,6 +245,7 @@ int main(){
         else if(tokenNumber == 2 && strcmp(lexeme,"define") == 0){
             printf("On Line Number %d found token: %s - %s\n",yylineno, tokens[tokenNumber - 1], lexeme);;
             struct symbol *s=malloc(sizeof(struct symbol));
+            struct constant *c=malloc(sizeof(struct symbol));
             strncpy(s->token,tokens[tokenNumber - 1],MAX_SYM);
             s->type = tokenNumber;
             strncpy(s->name,lexeme,MAX_NAME);

@@ -25,6 +25,8 @@ int main(){
     
     \\
 
+	char * c = "Hello"hel";
+
     // this is a single line comment
     float f = 10.9404;
     Node *n = (Node*)malloc(sizeof(Node));

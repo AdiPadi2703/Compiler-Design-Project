@@ -141,6 +141,7 @@ int main(){
     for (int i=0;i<MAX_TABLE;i++){
         symbol_table[i] = NULL;
     }
+    int count= 0;
 
     char *lexeme;
     int tokenNumber = yylex();

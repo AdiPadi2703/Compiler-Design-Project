@@ -28,7 +28,8 @@ char tokens[100][100] = {
     "SINGLELINECOMMENT", 
     "MULTILINECOMMENT",
     "UNMATCHEDCOMMENT", 
-    "UNMATCHEDSTRING" 
+    "UNMATCHEDSTRING" ,
+    "UNMATCHEDCOMMENTCLOSED"
 };
 
 %}
@@ -55,6 +56,7 @@ char tokens[100][100] = {
 \/\/(.*)      {return SINGLELINECOMMENT;}
 "/*"([^*]|\*+[^*/])*\*+"/" {return MULTILINECOMMENT;}
 "/*"([^*]|\*+[^*/])*       {return UNMATCHEDCOMMENT;}
+"*/"                       {return UNMATCHEDCOMMENTCLOSED;}
 [ \n\t]     {;}
 .           {printf("ERR_UNEXPECTED_CHARACTER: On Line Number %d found %s\n",yylineno, yytext);}
 
@@ -152,6 +154,9 @@ int main(){
         }
         else if(tokenNumber == 18){
             printf("ERR_INCOMPLETE_STRING: On Line Number %d found %s\n",yylineno, lexeme);
+        }
+        else if(tokenNumber == 19){
+            printf("ERR_UNMATCHED_COMMENT_DUE_TO_NESTS: On Line NUmber %d found %s\n",yylineno,lexeme);
         }
         printf("On Line Number %d found token: %s - %s\n",yylineno, tokens[tokenNumber - 1], lexeme);
         struct symbol *s=malloc(sizeof(struct symbol));

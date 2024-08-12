@@ -25,7 +25,6 @@ int main(){
     
     \\
 
-	char * c = "Hello"hel";
 
     // this is a single line comment
     float f = 10.9404;
@@ -41,6 +40,7 @@ int main(){
         /*
             This is
             a multiline comment
+            /*nested comment*/
         */
     }
     if(a >= 10){
@@ -56,5 +56,10 @@ int main(){
     scanf("%d", &n);
 
     return 0;
+        /*
+            This is
+            a multiline comment
+            /*nested comment*/
+        */
 
 }

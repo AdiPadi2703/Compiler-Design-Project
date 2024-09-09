@@ -12,16 +12,18 @@
 %%
 
 "auto"  {return AUTO;}
+"printf" {return PRINTF;}
+"scanf" {return SCANF;}
 "const" {return CONST;}
 "break" {return BREAK;}
 "goto"  {return GOTO;}
 "continue" {return CONTINUE;}
-"switch"    {return SWITCH;}
-"case"  {return CASE;}
-"do"    {return DO;}
-"default"   {return DEFAULT;}
-"register"  {return REGISTER;}
-"static"    {return STATIC;}
+"switch" {return SWITCH;}
+"case" {return CASE;}
+"do" {return DO;}
+"default" {return DEFAULT;}
+"register" {return REGISTER;}
+"static" {return STATIC;}
 "while" {return WHILE;}
 "volatile"  {return VOLATILE;}
 "extern"    {return EXTERN;}
@@ -32,14 +34,12 @@
 "char"     {return CHAR;}
 "float"     {return FLOAT;}
 "void"         {return VOID;}
-"bool"      {return BOOL;}
 "main"      {return MAIN;}
 "for"       {return FOR;}
 "return"    {return RETURN;}
 "sizeof"    {return SIZEOF;}
 "struct"    {return STRUCT;}
 "union"     {return UNION;}
-"typedef"   {return TYPEDEF;}
 "if"        {return IF;}
 "else"      {return ELSE;}
 \#"include" {return INCLUDE;}
@@ -47,9 +47,8 @@
 "<"[_a-zA-Z/]*".h>"    {return HEADERPATH;}
 [_a-zA-Z][_a-zA-Z0-9]* {return IDENTIFIER;}
 [0-9]*                  {return INT_LIT;}
-\'(\\.|[^"\\])\'        {return CHAR_LIT}
+\'(\\.|[^"\\])\'        {return CHAR_LIT;}
 [0-9]*\.[0-9]*          {return FLOAT_LIT;}
-"true"|"false"          {return BOOL_LIT;}
 \"(\\.|[^"\\])*   {return UNMATCHEDSTRING;}  
 "{"               {return OPENCURLY;}
 "}"               {return CLOSEDCURLY;}
@@ -58,9 +57,12 @@
 "["               {return OPENREC;}
 "]"               {return CLOSEDREC;}
 "++"|"--"|"!"     {return UNARY;}
-"?"               {return QTERTIARY}
+"?"               {return QTERTIARY;}
 ":"           {return CTERTIARY;}
-"="|"+"|"-"|"*"|"/"|">"|"<"|">="|"<="|"=="|"!="|"&&"|"||"|"->"|"&"|"%"|"+="|"/="|"-="|"*=" {return BINARY;}
+"+"|"*"|"/"|"&&"|"||"|"->"|"&"|"%"|"+="|"/="|"-="|"*=" {return BINARY;}
+"-" {return MINUS;}
+">"|"<"|">="|"<="|"=="|"!=" {return RELOP;}
+"=" {return ASSIGN;}
 ","           {return COMMA;}
 ";"           {return SEMICOLON;}
 \/\/(.*)      {return SINGLELINECOMMENT;}

@@ -73,10 +73,13 @@ struct symbol{
         struct symbol *next;
     };
 
-void print_table(struct symbol *symbol_table[]){
+void print_table(struct symbol *symbol_table[], int flag){
         struct symbol *pointer;
+        char *name;
+        if (flag)name = "CONSTANT TABLE";
+        else name = "SYMBOL TABLE";
         printf("\n\n***********************************************************************************************\n");
-        printf("*                                      SYMBOL TABLE                                           *\n");
+        printf("*                                      %s                                           *\n",name);
         printf("***********************************************************************************************\n");
         printf("Hash Value                    Lexeme                    Token                      Token Number\n");
         printf("***********************************************************************************************\n");
@@ -138,16 +141,19 @@ void add(struct symbol *s, struct symbol* symbol_table[]){
     }
 
 int main(){
-    
+    FILE *file;
+    file =  fopen("program.c","r");
+    if(file)yyin = file;
     struct symbol *symbol_table[MAX_TABLE];
+    struct symbol *constant_table[MAX_TABLE];
     for (int i=0;i<MAX_TABLE;i++){
         symbol_table[i] = NULL;
+        constant_table[i] = NULL;
     }
 
     char *lexeme;
     int tokenNumber = yylex();
     while(tokenNumber){
-
         lexeme = strdup(yytext);
         if(tokenNumber == 17){
             printf("ERR_UNMATCHED_COMMENT: On Line Number %d found %s\n",yylineno, lexeme);
@@ -163,9 +169,15 @@ int main(){
         strncpy(s->token,tokens[tokenNumber - 1],MAX_SYM);
         s->type = tokenNumber;
         strncpy(s->name,lexeme,MAX_NAME);
-        add(s, symbol_table);
+        if (tokenNumber != 6){
+            add(s, symbol_table);
+        }
+        else {
+            add(s, constant_table);
+        }
         tokenNumber = yylex();
     }
-    print_table(symbol_table);
+    print_table(symbol_table, 0);
+    print_table(constant_table, 1);
     return 0;
 }

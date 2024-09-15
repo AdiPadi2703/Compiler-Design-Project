@@ -1,0 +1,323 @@
+    First and Follow Sets
+
+    First Sets
+
+    First( program ) : { ε, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID, STRUCT }
+    First( declarations ) : {ε, INT, CHAR, FLOAT, DOUBLE, LONG,SHORT, UNSIGNED,
+    SIGNED, VOID, STRUCT}
+    First( declaration ) : {INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,UNSIGNED,
+    SIGNED, VOID, STRUCT}
+    First( struct_dec ) : {STRUCT}
+    First( struct_content ) : {ε, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT}
+    First( var_dec ) : { INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID, STRUCT }
+    First( struct_init ) : { STRUCT }
+    First( vars ) : { id }
+    First( multiple_vars ) : { , , ε}
+    First( function_dec ) : { INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID}
+    First( function_datatype ) : { INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID}
+    First( function_parameters ) : { ), ε, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID}
+    First( parameters ) : { ε, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID }
+    First( all_parameter_ids ) : { ) }
+    First( multiple_parameters ) : { , , ε }
+    First( parameter_id ) : { id}
+    First( extended_parameter ) : { [, ε }
+    First( id_name ) : { id}
+    First( extended_id ) : { =, [, ε }
+    First( array_id ) : { [, ε }
+    First( array_dims ) : { integer_constant, ] }
+    First( init ) : { ε, = }
+    First( string_init ) : { = }
+    First( array_init) : { = }
+    First( array_values ): { integer_constant }
+    First( multiple_array_values ) : { , , ε }
+    First( datatype ) : { INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID }
+    First( unsigned_grammar ) : { INT, LONG, SHORT, ε }
+    First( signed_grammar ) : { INT, LONG, SHORT, ε }
+    First( long_grammar ) : { INT, ε }
+    First( short_grammar ) : { INT, ε }
+    First( statement ) : { ;, id, NOT, (, integer_constant, string_constant,
+    float_constant, character_constant, IF, RETURN, INT, CHAR, FLOAT, DOUBLE,
+    LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, {, BREAK, WHILE,FOR, DO }
+    First( multiple_statement ) : { { }
+    First( statements ) : { ε, ;, id, NOT, (, integer_constant, string_constant,
+    float_constant, character_constant, IF, RETURN, INT, CHAR, FLOAT, DOUBLE,
+    LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, {, BREAK, WHILE,FOR, DO }
+    First( expression_statement ) : { ;, id, NOT, (, integer_constant,
+    string_constant, float_constant, character_constant }
+    First( conditional_statements ) : { IF }
+    First( extended_conditional_statements ) : { ELSE, ε }
+    First( iterative_statements ) : { WHILE, FOR, DO }
+    First( for_init ) : { ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, id, NOT, (, integer_constant,
+    string_constant, float_constant, character_constant }
+    First( return_statement ) : { RETURN }
+    First( return_suffix ) : { ;, id, NOT, (, integer_constant, string_constant,
+    float_constant, character_constant }
+    First( break_statement ) : { BREAK }
+    First( expression ) : { id, NOT, (, integer_constant, string_constant,
+    float_constant, character_constant }
+    First( expressions ) : { =, ADD_EQUAL, SUBTRACT_EQUAL, MULTIPLY_EQUAL,
+    DIVIDE_EQUAL, MOD_EQUAL, INCREMENT, DECREMENT }
+    First( simple_expression ) : { NOT, (, id, integer_constant, string_constant,
+    float_constant, character_constant }
+    First( simple_expression_breakup ) : { OR_OR, ε }
+    First( and_expression ) : { NOT, (, id, integer_constant, string_constant,
+    float_constant, character_constant }
+    First( and_expression_breakup ) : { AND_AND, ε }
+    First( unary_relation_expression ) : { NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant }
+    First( regex ) : { (, id, integer_constant, string_constant,
+    float_constant, character_constant }
+    First( regex_breakup ) : { ε, GREAT_EQUAL, LESS_EQUAL, GREAT,
+    LESS, EQUAL, NOT_EQUAL }
+    First( relops ) : { GREAT_EQUAL, LESS_EQUAL, GREAT, LESS, EQUAL,
+    NOT_EQUAL }
+    First( sum_expression ) : { (, id, integer_constant, string_constant,
+    float_constant, character_constant }
+    First( sum_expression' ) : { ε, +, - }
+    First( sum_operators ) : { +, - }
+    First( term ) : { (, id, integer_constant, string_constant, float_constant,
+    character_constant }
+    First( term' ) : { ε, *, /, % }
+    First( multiply_operators ) : { *, /, % }
+    First( factor ) : { (, id, integer_constant, string_constant, float_constant,
+    character_constant }
+    First( identifier ) : { id }
+    First( identifier’ ) : { ε, [, . }
+    First( extended_identifier ) : { [, . }
+    First( function ) : { (, id, integer_constant, string_constant, float_constant,
+    character_constant }
+    First( func_call ):{ id }
+    First( args ):{ ε, id, NOT, (, integer_constant,string_constant,
+    float_constant, character_constant }
+    First( args_list ):{ id, NOT, (, integer_constant,string_constant,
+    float_constant, character_constant }
+    First( extended_args ):{ ,, ε }
+    First( constant ):{ integer_constant, string_constant, float_constant,
+    character_constant }
+
+
+    Follow Sets
+
+    Follow( program ) : { $ }
+    Follow( declarations ) : { $ }
+    Follow( declaration ) : {INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID, STRUCT, $}
+    Follow( struct_dec ) : {INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID, STRUCT, $}
+    Follow( struct_content ) : { }}
+    Follow( var_dec ) : { INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID, STRUCT, NOT, (, id, integer_constant, string_constant,
+    float_constant, character_constant, WHILE, ELSE, ;, IF, RETURN, {,BREAK, FOR, DO,
+    }, $}
+    Follow( struct_init ) : { INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, ;, IF, RETURN,
+    {,BREAK, FOR, DO, }, $ }
+    Follow( vars ) : { ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID, STRUCT, NOT, (, id, integer_constant, string_constant,
+    float_constant, character_constant, WHILE, ELSE, IF, RETURN, {,BREAK, FOR, DO, },
+    $ }
+    Follow( multiple_vars ) : { ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN,
+    {,BREAK, FOR, DO, }, $}
+    Follow( function_dec ) : { INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID, STRUCT, $}
+    Follow( function_datatype ) : { ), INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID}
+    Follow( function_parameters ):{ INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, $}
+    Follow( parameters ) : { ) }
+    Follow( all_parameter_ids ) : { ) }
+    Follow( multiple_parameters ) : { )}
+    Follow( parameter_id ) : { ,, ) }
+    Follow( extended_parameter ): { ,, ) }
+    Follow( id_name ) : { ,, ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN,
+    {,BREAK, FOR, DO, }, $ }
+    Follow( extended_id ) : { ,, ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN,
+    {,BREAK, FOR, DO, }, $}
+    Follow( array_id ) : { ,, ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN,
+    {,BREAK, FOR, DO, }, $ }
+    Follow( array_dims ) : { ,, ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID, STRUCT, NOT, (, id, integer_constant, string_constant,
+    float_constant, character_constant, WHILE, ELSE, IF, RETURN, {,BREAK, FOR, DO, },
+    $ }
+    Follow( init ) : { ,, ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID, STRUCT, NOT, (, id, integer_constant, string_constant,
+    float_constant, character_constant, WHILE, ELSE, IF, RETURN, {,BREAK, FOR, DO, },
+    $}
+    Follow( string_init ) : { ,, ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN,
+    {,BREAK, FOR, DO, }, $ }
+    Follow( array_init) : { ,, ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN,
+    {,BREAK, FOR, DO, }, $ }
+    Follow( array_values ) : { } }
+    Follow( multiple_array_values ) : { } }
+    Follow( datatype ) : { id }
+    Follow( unsigned_grammar ) : { id }
+    Follow( signed_grammar ) : { id }
+    Follow( long_grammar ) : { id }
+    Follow( short_grammar ) : { id }
+    Follow( statement ) : { WHILE, ELSE, ;, id, NOT, (, integer_constant,
+    string_constant, float_constant, character_constant, IF, RETURN, INT, CHAR,
+    FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, {,BREAK, FOR,
+    DO, }, $ }
+    Follow( multiple_statement ) : { WHILE, ELSE, ;, id, NOT, (,
+    integer_constant, string_constant, float_constant, character_constant, IF,
+    RETURN, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED, VOID,
+    STRUCT, {,BREAK, FOR, DO, }, $ }
+    Follow( statements ) : { } }
+    Follow( expression_statement ) : { WHILE, ELSE, ;, id, NOT, (,
+    integer_constant, string_constant, float_constant, character_constant, IF,
+    RETURN, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED, VOID,
+    STRUCT, {,BREAK, FOR, DO, }, $ }
+    Follow( conditional_statements ) : { WHILE, ELSE, ;, id, NOT, (,
+    integer_constant, string_constant, float_constant, character_constant, IF,
+    RETURN, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED,VOID,
+    STRUCT, {,BREAK, FOR, DO, }, $ }
+    Follow( extended_conditional_statements ) : { WHILE, ELSE, ;, id, NOT,(,
+    integer_constant, string_constant, float_constant, character_constant, IF,
+    RETURN, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED,VOID,
+    STRUCT, {,BREAK, FOR, DO, }, $ }
+    Follow( iterative_statements ) : { WHILE, ELSE, ;, id, NOT, (,
+    integer_constant, string_constant, float_constant, character_constant, IF,
+    RETURN, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED,VOID,
+    STRUCT, {,BREAK, FOR, DO, }, $ }
+    Follow( for_init ) : { NOT, (, id, integer_constant, string_constant,
+    float_constant, character_constant }
+    Follow( return_statement ) : { WHILE, ELSE, ;, id, NOT, (, integer_constant,
+    string_constant, float_constant, character_constant, IF, RETURN, INT, CHAR,
+    FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, {,BREAK,FOR,
+    DO, }, $ }
+    Follow( return_suffix ):{ WHILE, ELSE, ;, id, NOT, (, integer_constant,
+    string_constant, float_constant, character_constant, IF, RETURN, INT, CHAR,
+    FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, {,BREAK,FOR,
+    DO, }, $ }
+    Follow( break_statement ) : { WHILE, ELSE, ;, id, NOT, (, integer_constant,
+    string_constant, float_constant, character_constant, IF, RETURN, INT, CHAR,
+    FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, {,BREAK,FOR,
+    DO, }, $ }
+    Follow( expression ) : { ,, ), ], ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN,
+    {,BREAK, FOR, DO, }, $ }
+    Follow( expressions ) : { ,, ), ], ;, INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN,
+    {,BREAK, FOR, DO, }, $ }
+    Follow( simple_expression ) : { ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE, LONG, SHORT,
+    UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN,
+    {,BREAK, FOR, DO, }, $ }
+    Follow( simple_expression_breakup ) : { ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE,
+    LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id,
+    integer_constant, string_constant, float_constant, character_constant, WHILE,
+    ELSE, IF, RETURN, {,BREAK, FOR, DO, }, $ }
+    Follow( and_expression ) : { OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE, LONG,
+    SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF,RETURN, {,
+    BREAK, FOR, DO, }, $ }
+    Follow( and_expression_breakup ) : { OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE,
+    LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id,
+    integer_constant, string_constant, float_constant, character_constant, WHILE,
+    ELSE, IF,RETURN, {, BREAK, FOR, DO, }, $ }
+    Follow( unary_relation_expression ) : { AND_AND, OR_OR, ), ;, ,, ], INT, CHAR,
+    FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (,
+    id, integer_constant, string_constant, float_constant, character_constant,
+    WHILE,ELSE, IF, RETURN, {, BREAK, FOR, DO, }, $ }
+    Follow( regex ) : { AND_AND, OR_OR, ), ;, ,, ], INT, CHAR, FLOAT,
+    DOUBLE, LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id,
+    integer_constant, string_constant, float_constant, character_constant,
+    WHILE,ELSE, IF, RETURN, {, BREAK, FOR, DO, }, $ }
+    Follow( regex_breakup ) : { AND_AND, OR_OR, ), ;, ,, ], INT, CHAR,
+    FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (,
+    id, integer_constant, string_constant, float_constant, character_constant,
+    WHILE,ELSE, IF, RETURN, {, BREAK, FOR, DO, }, $ }
+    Follow( relops ) : { (, id, integer_constant, string_constant,
+    float_constant, character_constant }
+    Follow( sum_expression ) : { GREAT_EQUAL, LESS_EQUAL, GREAT, LESS, EQUAL,
+    NOT_EQUAL, AND_AND, OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE, LONG,
+    SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id,integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN, {,
+    BREAK, FOR, DO, }, $ }
+    Follow( sum_expression' ) : { GREAT_EQUAL, LESS_EQUAL, GREAT, LESS, EQUAL,
+    NOT_EQUAL, AND_AND, OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE, LONG,
+    SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id,integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN, {,
+    BREAK, FOR, DO, }, $ }
+    Follow( sum_operators ) : { (, id, integer_constant, string_constant,
+    float_constant, character_constant }
+    Follow( term ) : { +, -, GREAT_EQUAL, LESS_EQUAL, GREAT, LESS, EQUAL,
+    NOT_EQUAL, AND_AND, OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE, LONG,
+    SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id,integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN, {,
+    BREAK, FOR, DO, }, $ }
+    Follow( term' ) : { +, -, GREAT_EQUAL, LESS_EQUAL, GREAT, LESS, EQUAL,
+    NOT_EQUAL, AND_AND, OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE, LONG,
+    SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (, id,integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN, {,
+    BREAK, FOR, DO, }, $ }
+    Follow( multiply_operators ) : { (, id, integer_constant, string_constant,
+    float_constant, character_constant}
+    Follow( factor ) : { *, /, %, +, -, GREAT_EQUAL, LESS_EQUAL, GREAT, LESS, EQUAL,
+    NOT_EQUAL, AND_AND, OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE, LONG,
+    SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (,id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN, {,
+    BREAK, FOR, DO, }, $ }
+    Follow( identifier ) : { =, ADD_EQUAL, SUBTRACT_EQUAL, MULTIPLY_EQUAL,
+    DIVIDE_EQUAL, MOD_EQUAL, INCREMENT, DECREMENT, *, /, %, +, -,
+    GREAT_EQUAL, LESS_EQUAL, GREAT, LESS, EQUAL, NOT_EQUAL,AND_AND,
+    OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED,
+    VOID, STRUCT, NOT, (, id, integer_constant, string_constant,
+    float_constant, character_constant, WHILE,ELSE, IF, RETURN, {, BREAK, FOR, DO, },
+    $ }
+    Follow( identifier’ ) : { =, ADD_EQUAL, SUBTRACT_EQUAL, MULTIPLY_EQUAL,
+    DIVIDE_EQUAL, MOD_EQUAL, INCREMENT, DECREMENT, *, /, %, +, -,
+    GREAT_EQUAL, LESS_EQUAL, GREAT, LESS, EQUAL, NOT_EQUAL,AND_AND,
+    OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED, SIGNED,
+    VOID, STRUCT, NOT, (, id, integer_constant, string_constant,
+    float_constant, character_constant, WHILE,ELSE, IF, RETURN, {, BREAK, FOR, DO, },
+    $ }
+    Follow( extended_identifier ) : { [, ., =, ADD_EQUAL, SUBTRACT_EQUAL,
+    MULTIPLY_EQUAL, DIVIDE_EQUAL, MOD_EQUAL, INCREMENT, DECREMENT, *, /,
+    %, +, -, GREAT_EQUAL, LESS_EQUAL, GREAT, LESS, EQUAL,NOT_EQUAL,
+    AND_AND, OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE, LONG, SHORT, UNSIGNED,
+    SIGNED, VOID, STRUCT, NOT, (, id, integer_constant, string_constant,
+    float_constant,character_constant, WHILE, ELSE, IF, RETURN, {, BREAK, FOR, DO, },
+    $ }
+    Follow( function ) : { *, /, %, +, -, GREAT_EQUAL, LESS_EQUAL, GREAT, LESS, EQUAL,
+    NOT_EQUAL, AND_AND, OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE, LONG,
+    SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (,id, integer_constant,
+    string_constant, float_constant, character_constant, WHILE, ELSE, IF, RETURN, {,
+    BREAK, FOR, DO, }, $ }
+    Follow( func_call ) : { *, /, %, +, -, GREAT_EQUAL, LESS_EQUAL, GREAT, LESS,
+    EQUAL, NOT_EQUAL, AND_AND, OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE,
+    LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (,id,
+    integer_constant, string_constant, float_constant, character_constant, WHILE,
+    ELSE, IF, RETURN, {, BREAK, FOR, DO, }, $ }
+    Follow( args ) : { ) }
+    Follow( args_list ) : { ) }
+    Follow( extended_args ) : { ) }
+    Follow( constant ) : { *, /, %, +, -, GREAT_EQUAL, LESS_EQUAL, GREAT, LESS,
+    EQUAL, NOT_EQUAL, AND_AND, OR_OR, ), ;, ,, ], INT, CHAR, FLOAT, DOUBLE,
+    LONG, SHORT, UNSIGNED, SIGNED, VOID, STRUCT, NOT, (,id,
+    integer_constant, string_constant, float_constant, character_constant, WHILE,
+    ELSE, IF, RETURN, {, BREAK, FOR, DO, }, $ }

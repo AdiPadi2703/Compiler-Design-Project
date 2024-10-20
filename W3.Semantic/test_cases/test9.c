@@ -3,6 +3,7 @@
 
 void main()
 {
+	int k
 	int a = 1;
 	int a = 2;
 	printf("%d", a);

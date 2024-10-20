@@ -8,6 +8,17 @@
 		char constant_type[100];
 		int exist;
 	}CT[1000];
+
+	struct ErrorTableNode {
+
+		int line_number;
+		char *error_message;
+		struct ErrorTableNode *next;
+
+	};
+	typedef struct ErrorTableNode ErrorTableNode;
+
+	extern ErrorTableNode *error_table[1];
 	
 	struct SymbolTable{
 		char symbol_name[100];
@@ -24,6 +35,41 @@
 
 	int current_nested_val = 0;
 	int params_count = 0;
+
+	void init_error_table(){
+		ErrorTableNode *head = malloc(sizeof(ErrorTableNode));
+		head->line_number = -1;
+		head->error_message = "";
+		head->next = NULL;
+		error_table[0] = head;
+		return ;
+	}
+
+	void insert_error_table(int line_number, char *error_message){
+		ErrorTableNode *temp = error_table[0];
+		ErrorTableNode *node = malloc(sizeof(ErrorTableNode));
+
+		while(temp->next){
+
+			temp = temp->next;
+		}
+		node->line_number = line_number;
+		node->error_message = error_message;
+		node->next = NULL;
+		temp->next = node;
+		return ;
+	}
+
+	void print_error_table(){
+		ErrorTableNode *temp = error_table[0];
+
+		printf("%20s | %20s\n", "LINE NUMBER","ERROR MESSAGE");
+		while(temp){
+			if(temp->line_number != -1)
+				printf("%20d | %20s\n", temp->line_number, temp->error_message);
+			temp = temp->next;
+		}
+	}
 
 
 	unsigned long hash(unsigned char *str)
@@ -118,9 +164,7 @@
 	
 	void insert_SymbolTable(char* name, char* class){
 		int index = 0;
-		//printf("BBBB");
 		 if(search_SymbolTable(name)){
-			//printf("AAAAAA");
 			return;
 		}
 		else{
@@ -130,7 +174,6 @@
 				strcpy(ST[val].symbol_name, name);
 				strcpy(ST[val].class, class);
 			    ST[val].nested_val = 100;
-				//ST[val].params_count = -1;
                 ST[val].line_number = yylineno;
 				ST[val].exist = 1;
 				return;
@@ -145,7 +188,6 @@
 			strcpy(ST[index].symbol_name, name);
 			strcpy(ST[val].class, class);
 			ST[index].nested_val = 100;
-			//ST[index].params_count = -1;
 			ST[index].exist = 1;			
 		}
 	}
@@ -208,10 +250,8 @@
 
 	void insert_SymbolTable_nest(char *s, int nest)
 	{
-		//printf("mlkjhad %d", nest);
 		if(search_SymbolTable(s) && ST[search_SymbolTable(s)].nested_val != 100)
 		{
-			//printf("mlkjhad %d\n", nest);
              int pos = 0;
              int value = hash(s);
 			 value = value%1001;
@@ -227,8 +267,6 @@
 			strcpy(ST[pos].symbol_name,s);
 			strcpy(ST[pos].class,"Identifier");
 			ST[pos].nested_val = nest;
-			//printf("afafa %s\n", ST[pos].symbol_name);
-			//ST[pos].params_count = -1;
 			ST[pos].line_number = yylineno;
 			ST[pos].exist = 1; 
 		}
@@ -346,11 +384,10 @@
 		{
 			if(strcmp(ST[i].symbol_name, str) == 0 && strcmp(ST[i].class, "Function") == 0)
 			{
-				printf("ERROR: Cannot Redeclare same function!\n");
-				printf("\nUNSUCCESSFUL: INVALID PARSE\n");
-				exit(0);
+				insert_error_table(yylineno, "ERROR : Cannot redeclare same function!"); 
 			}
 		}
+		return 0;
 	}
 
 	int check_declaration(char* str, char *check_type)
@@ -369,9 +406,7 @@
 	{
 		if(!strcmp(type_specifier, "void"))
 		{
-			printf("ERROR: Here, Parameter cannot be of void type\n");
-			printf("\nUNSUCCESSFUL: INVALID PARSE\n");
-			exit(0);
+			insert_error_table(yylineno, "ERROR : Parameter cannot be of void type");
 		}
 		return 0;
 	}
@@ -429,6 +464,10 @@
 			printf("%10s | %18s | %10s | %10s | %10s | %10s | %15d | %10d | %d\n", ST[i].symbol_name, ST[i].class, ST[i].symbol_type, ST[i].value,ST[i].array_dimensions,ST[i].parameters, ST[i].params_count, ST[i].nested_val,ST[i].line_number);
 		}
 	}
+
+	
+
+
 	char current_identifier[20];
 	char current_type[20];
 	char current_value[20];
@@ -475,7 +514,7 @@ IN "include"
 <MLCOMMENT>[^/*\n]+						 	 ;
 <MLCOMMENT>[/]    							 ;
 <MLCOMMENT>\n     							 ;
-<MLCOMMENT><<EOF>>							 { printf("Line No. %d ERROR: MULTI LINE COMMENT NOT CLOSED\n", yylineno); return 0;}
+<MLCOMMENT><<EOF>>							 {insert_error_table(yylineno, "ERROR: MULTI LINE COMMENT NOT CLOSED");;}
 
 "["                                          {return *yytext;}
 "]"                                          {return *yytext;}
@@ -513,9 +552,9 @@ IN "include"
 "default"		{ insert_SymbolTable(yytext, "Keyword");  return DEFAULT;}
 
 ("\"")[^\n\"]*("\"")                         {strcpy(current_value,yytext); insert_ConstantTable(yytext,"String Constant"); return string_constant;}        
-("\"")[^\n\"]*                               { printf("Line No. %d ERROR: UNCLOSED STRING - %s\n", yylineno, yytext); return 0;}
+("\"")[^\n\"]*                               { insert_error_table(yylineno, "ERROR: UNCLOSED STRING");;}
 ("\'")(("\\"({escape_sequences}))|.)("\'")   {strcpy(current_value,yytext); insert_ConstantTable(yytext,"Character Constant"); return character_constant;}
-("\'")(((("\\")[^0abfnrtv\\\"\'][^\n\']*))|[^\n\''][^\n\'']+)("\'") {printf("Line No. %d ERROR: NOT A CHARACTER - %s\n", yylineno, yytext); return 0; }
+("\'")(((("\\")[^0abfnrtv\\\"\'][^\n\']*))|[^\n\''][^\n\'']+)("\'") {insert_error_table(yylineno, "ERROR : NOT A CHARACTER");;}
 {num}+(\.{num}+)?e{num}+   		        {strcpy(current_value,yytext); insert_ConstantTable(yytext, "Floating Constant"); return float_constant;} 
 {num}+\.{num}+                		    {strcpy(current_value,yytext); insert_ConstantTable(yytext, "Floating Constant"); return float_constant;}                                             
 {num}+                           	   	{strcpy(current_value,yytext); insert_ConstantTable(yytext, "Number Constant"); yylval = atoi(yytext); return integer_constant;}    
@@ -552,9 +591,9 @@ IN "include"
 "!="										 {return NOT_EQUAL;}
 .											 { flag = 1;
 											   if(yytext[0] == '#')
-													printf("Line No. %d PREPROCESSOR ERROR - %s\n", yylineno, yytext);
+											   		insert_error_table(yylineno, "PREPROCESSOR ERROR");
 											   else
-													printf("Line No. %d ERROR: ILLEGAL CHARACTER - %s\n", yylineno, yytext);
-											  return 0;}
+											   		insert_error_table(yylineno, "ERROR : ILLEGAL CHARACTER");
+											;}
 
 %%

@@ -50,6 +50,7 @@
 	char currfunccall[100];
 	extern int params_count;
 	int call_params_count;
+	int arr_dim = 0;
 
 %}
 
@@ -130,12 +131,13 @@ identifier_name
 extended_identifier : array_iden | '='{strcpy(previous_operator,"=");} simple_expression ;
 
 array_iden
-			: '[' array_dims
-			| ;
+			: '[' array_dims 
+			|  { insert_dimensions(); arr_dim = 0;};
 
 array_dims
-			: integer_constant {insert_dimensions();} ']' initilization{if($$ < 1) {yyerror("Array must have size greater than 1!"); } }
-			| ']' string_initilization;
+			:   integer_constant ']' {arr_dim++; insert_dimensions(); arr_dim = 0;} initilization {if($$ < 1) {yyerror("Array must have size greater than 1!"); } }
+			| ']'  { arr_dim = 1 ;insert_dimensions(); arr_dim = 0;} string_initilization;
+			|  integer_constant ']' {arr_dim++;} array_iden ;
 
 initilization
 			: string_initilization
@@ -452,9 +454,13 @@ void insert_value()
 }
 
 void insert_dimensions()
-{
-    insert_SymbolTable_arraydim(current_identifier, current_value);
+{	
+	int len = snprintf(NULL,0,"%d",arr_dim);
+	char* result = malloc(len+1);
+	snprintf(result,len+1,"%d",arr_dim);
+    insert_SymbolTable_arraydim(current_identifier, result);
 }
+
 
 void insert_parameters()
 {

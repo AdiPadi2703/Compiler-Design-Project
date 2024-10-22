@@ -3,8 +3,8 @@
 
 struct book
 {
-	char name[10];
-	char author[10];
+	int name[10][2][45][56];
+	int author[10][23];
 };
 
 int main()
